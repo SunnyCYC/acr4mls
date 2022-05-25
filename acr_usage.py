@@ -17,7 +17,7 @@ import glob
 
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
-import acr_modules_0525 as acr_module
+import acr_modules as acr_module
 f_measure_threshold = 0.07
 
 
