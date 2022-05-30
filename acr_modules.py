@@ -49,7 +49,7 @@ y_tick_dict ={
     'triple':'triple', 
     'quadruple':'quadruple',  
     'half':'half', 
-    'third':'one-third', 
+    'third':'third', 
     'quarter': 'quarter', 
     'any': 'any'} 
 
