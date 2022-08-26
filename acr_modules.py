@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-
+0810: fixed empty slicing warning: len(var_template)>0 --> >1
+0824: added MLS Frq cal
+0825: redesign raioPlotter
 @author: CITI
 """
 #%%
@@ -35,12 +37,12 @@ tempo_group = {
 
 colors = list(mcolors.TABLEAU_COLORS.keys())
 
-simp_legend = {
-    'HMM':'$B_\mathrm{HMM}$', 
-    'HMMT0': '$B_\mathrm{HMMT0}$', 
-    'PLPDP':'$B_\mathrm{PLPDP}$', 
-    'DP':'$B_\mathrm{DP}$', 
-    'SPPK':'$B_\mathrm{SPPK}$'}
+# simp_legend = {
+#     'HMM':'$B_\mathrm{HMM}$', 
+#     'HMMT0': '$B_\mathrm{HMMT0}$', 
+#     'PLPDP':'$B_\mathrm{PLPDP}$', 
+#     'DP':'$B_\mathrm{DP}$', 
+#     'SPPK':'$B_\mathrm{SPPK}$'}
 
 y_tick_dict ={
     'onbeat':'onbeat', 
@@ -63,21 +65,26 @@ c_types=['onbeat', 'offbeat', 'half',
          'double', 'third', 'triple',  'quarter', 'quadruple', 
          'any']
 #%%
+
+
 def raioPlotter(cdicts, est_dict, beats_ann, title = None,
                 start_frame = None, end_frame = None, 
                 constrained_layout= False, acti = None, 
-                fontsize = fontsize, FPS = 100, c_types =c_types,
-                simp_legend = simp_legend):
+                fontsize = fontsize, FPS = 100, c_types =c_types,):
+    ### modify the legend
+    simp_legend = {k: '$B_\mathrm{'+k+'}$' for k in cdicts.keys()}
+
+    
     if not start_frame:
         start_frame = 0
     if not end_frame:
-        end_frame = int(beats_ann[-1, 0]*FPS)+1
-    fig, ax = plt.subplots(len(cdicts)+1, 1, figsize = (8, 12), 
+        end_frame = int(beats_ann[-1]*FPS)+1
+    fig, ax = plt.subplots(len(cdicts)+1, 1, figsize = (8,6), 
                         constrained_layout=constrained_layout)
+    
     ### set vertical ticks
     
     c_ticks = {y_tick_dict[y]:ind for ind, y in enumerate(c_types)}
-    
     if not isinstance(acti, type(None)):
         start_pos = -1
     else:
@@ -88,14 +95,10 @@ def raioPlotter(cdicts, est_dict, beats_ann, title = None,
         # break
         ax2.vlines(est*FPS, ind2+start_pos, ind2+0.7+start_pos, label = simp_legend[post_proc], 
                 linewidth = 3, linestyle = 'solid', color = colors[ind2])
-    # ax2.vlines(beats_ann*FPS, start_pos, ind2+0.7, label = beat_label, 
-    #                linestyle = 'solid', linewidth = 7, color = 'gray', alpha=0.27)
     ax2.vlines(beats_ann*FPS, start_pos, ind2+0.7, label = beat_label, 
                    linestyle = 'dashdot', linewidth = 2, color = 'black')
     ax2.set_ylim(ax2.get_ylim()[::-1])
-    # ax2.legend(loc='upper center', bbox_to_anchor = (0.36, 1.32), 
-    #                  frameon=False, fontsize = fontsize, ncol=3, 
-    #                   handletextpad=0.3, columnspacing= 0.7)
+    
     
     if not isinstance(acti, type(None)):
         
@@ -110,12 +113,6 @@ def raioPlotter(cdicts, est_dict, beats_ann, title = None,
     ax[0].set_xlim([start_frame, end_frame])
     
     ax[0].tick_params(axis = 'x', labelsize = fontsize)
-    # ax[0].legend(loc='center left', bbox_to_anchor = (-0.34, 0.60), 
-    #                  frameon=False, fontsize = fontsize)
-    # ax[0].legend(loc='upper center', bbox_to_anchor = (0.9, 1.3),
-    #                  frameon=False, fontsize = fontsize, ncol=3, 
-    #                    handletextpad=0.3, columnspacing= 0.7)
-    
     
     ax[0].axes.yaxis.set_visible(True)
     ax2.axes.yaxis.set_visible(False)
@@ -144,20 +141,21 @@ def raioPlotter(cdicts, est_dict, beats_ann, title = None,
     # print("len hanles:", len(handles))
     # print(labels)
     
-    # ax2.legend(loc='upper center', bbox_to_anchor = (0.36, 1.32), 
-    #                  frameon=False, fontsize = fontsize, ncol=3, 
-    #                   handletextpad=0.3, columnspacing= 0.7)
-    fig.legend([handles[idx] for idx in [3, 4]],[labels[idx] for idx in [3, 4]], 
-            loc='upper center', bbox_to_anchor = (0.5, 1.02), 
-                      frameon=False, fontsize = fontsize, ncol = 2)
-    fig.legend([handles[idx] for idx in [0, 1, 2]],[labels[idx] for idx in [0, 1, 2]], 
-            loc='upper center', bbox_to_anchor = (0.5, 1.05), 
-                      frameon=False, fontsize = fontsize, ncol = 3)
+    fig.legend(loc='upper center', bbox_to_anchor = (0.6, 1.04), 
+                      frameon=False, fontsize = fontsize, ncol=3, 
+                      handletextpad=0.3, columnspacing= 0.7)
+    # fig.legend([handles[idx] for idx in [3, 4]],[labels[idx] for idx in [3, 4]], 
+    #         loc='upper center', bbox_to_anchor = (0.5, 1.02), 
+    #                    frameon=False, fontsize = fontsize, ncol = 2)
+    # fig.legend([handles[idx] for idx in [0, 1, 2]],[labels[idx] for idx in [0, 1, 2]], 
+    #         loc='upper center', bbox_to_anchor = (0.5, 1.05), 
+    #                   frameon=False, fontsize = fontsize, ncol = 3)
     
     
     fig.tight_layout()
+    
     return fig
-
+#%%
 def faster_variant(sequence, double=False, triple=False, 
                    quadruple = True, allow_extrap = False):
     """
@@ -558,7 +556,7 @@ def anyMetLev_eval(beat_est, beat_ref, tolerance = 0.07, L =2,
             # break
             ### use variant_template to determine stricter tolerance
             var_template = compound_ref_dict[var_type]
-            if len(var_template)>0 : # not empty
+            if len(var_template)>1 : # not empty, or with only one beat (0810 modified)
                 mean_ibi = (var_template[1:]-var_template[:-1]).mean() ## second
                 tol = min(tolerance, 0.175*mean_ibi)
             else:
@@ -651,13 +649,33 @@ def est_dict2carrays(est_dict, beat_ref, L=2, c_types = c_types):
     return c_dicts, acr_all
 
 def plotACR(est_dict, beats_ann, acti, start_frame, 
-            end_frame, L = 2, simp_legend=simp_legend, c_types = c_types):
+            end_frame, L = 2, c_types = c_types):
     c_dicts, acr_all = est_dict2carrays(est_dict, beats_ann[:, 0], L, c_types)
     fig = raioPlotter(c_dicts, est_dict, beats_ann[:, 0], title = None,
                 start_frame = start_frame, end_frame = end_frame, 
                 constrained_layout= False, acti = acti, 
                 fontsize = fontsize, FPS = 100, c_types =c_types,
-                simp_legend = simp_legend)
+                )
     return fig, acr_all
 
   
+def calMLSfreq(c_arr):
+    ### get any-metric-level correct row
+    any_lev = c_arr[8, :]
+    ind_true = np.where(any_lev!=0)[0]
+    ## if no correct cases, return 0
+    if len(ind_true)==0:
+        return 0, 0, 0
+    ### get current correct metric-level, and check the next
+    cur_lev = np.where(c_arr[:8, ind_true[0]]==True)[0]
+    switch_count = 0
+    for ind in range(1, len(ind_true)):
+        # break
+        if cur_lev[0] != np.where(c_arr[:8, ind_true[ind ]]==True)[0][-1]:
+            cur_lev = np.where(c_arr[:8, ind_true[ind ]]==True)[0]
+            switch_count+=1
+    return switch_count/len(ind_true), switch_count, len(ind_true)
+#%%
+# import matplotlib.pyplot as plt
+# plt.figure()
+# plt.imshow(c_array, aspect = 'auto')
