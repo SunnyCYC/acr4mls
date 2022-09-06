@@ -22,11 +22,11 @@ In this repo we include five recordings from the ASAP dataset [1, 2] as an examp
 
 
 ## Extended Experiment Results
-To strengthen the claimed benefits of this proposed method, we trained the state-of-the-art TCN model [5] from scratch with the data augmentation following the tutorial [6] using SMC[7], HJDB[8], Hainsworth[9], Ballroom[10, 11], and Beatles[12]. As the purpose of these experiments are to gain insights into the behaviors of SOTA beat trackers, rather than to compare their performance, we demonstrate the results in Table 1 (madmom) and Table 2 (TCN) separately. It can be seen from the distribution of the colored cells that the TCN network exhibits similar metric-level behaviors as the madmom network does.
+To strengthen the claimed benefits of this proposed method, we trained the state-of-the-art TCN model [5] from scratch with the data augmentation following the tutorial [6] using SMC [7], HJDB [8], Hainsworth [9], Ballroom [10, 11], and Beatles [12]. As the purpose of these experiments are to gain insights into the behaviors of SOTA beat trackers, rather than to compare their performance, we demonstrate the results in Table 1 (madmom) and Table 2 (TCN) separately. It can be seen from the distribution of the colored cells that the TCN network exhibits similar metric-level behaviors as the madmom network does.
 
 ![](https://i.imgur.com/vgStrbC.png)
 
-On the other hand, we also evaluate using three additional beat tracking datasets, namely ASAP[11], GTZAN[12], [13], and Hainsworth[5]. Result shown in Table 3 (madmom) and Table 4 (TCN) again suggests that both the madmom and TCN model exhibit similar MLS behaviors that are nicely reflected by the proposed ACR metric but not by existing evaluation metrics.
+On the other hand, we also evaluate using three additional beat tracking datasets, namely ASAP [11], GTZAN [12, 13], and Hainsworth [5]. Result shown in Table 3 (madmom) and Table 4 (TCN) again suggests that both the madmom and TCN model exhibit similar MLS behaviors that are nicely reflected by the proposed ACR metric but not by existing evaluation metrics.
 
 ![](https://i.imgur.com/iNnE0tQ.png)
 
@@ -54,3 +54,8 @@ On the other hand, we also evaluate using three additional beat tracking dataset
 *[11] F. Krebs, S. Böck, and G. Widmer, “Rhythmic pattern modeling for beat and downbeat tracking in musical audio,” in Proc. Int. Soc. Music Inf. Retr. Conf., 2013.*
 
 *[12] M. E. P. Davies, N. D. Quintela, and M. Plumbley, “Evaluation methods for musical audio beat tracking algorithms,” in Queen Mary University of London, Centre for Digital Music, Tech. Rep. C4DM-TR-09-06, 2009.*
+
+
+
+
+
