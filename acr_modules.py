@@ -160,7 +160,7 @@ def faster_variant(sequence, double=False, triple=False,
                    quadruple = True, allow_extrap = False):
     """
     original source code: https://github.com/CPJKU/madmom/blob/master/madmom/evaluation/beats.py
-    Create more harmonic temo variations of the given beat sequence.
+    Create more harmonic tempo variations of the given beat sequence.
     
     Parameters
     ----------
