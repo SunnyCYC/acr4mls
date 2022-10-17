@@ -3,7 +3,7 @@
 This is the repo for the paper titled
 "*An Analysis Method for Metrical-Level Switching in Beat Tracking*".
 
-[ **| Paper** ](https://)[ **| Code |** ](https://github.com/SunnyCYC/acr4mls/)
+[ **| Paper** ](https://arxiv.org/abs/2210.06817)[ **| Code |** ](https://github.com/SunnyCYC/acr4mls/)
 
 
 ## Abstract
