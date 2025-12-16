@@ -30,6 +30,10 @@ On the other hand, we also evaluate using three additional beat tracking dataset
 
 ![](https://i.imgur.com/iNnE0tQ.png)
 
+## License
+
+This project is licensed under the **MIT License** - see the [LICENSE](./LICENSE) file for details.
+
 ## Reference
 *[1] F. Foscarin, A. McLeod, P. Rigaux, F. Jacquemard, and M. Sakai,“ASAP: A dataset of aligned scores and performances for piano transcription,” in Proc. Int. Soc. Music Inf. Retr. Conf., 2020, pp. 53*
 
